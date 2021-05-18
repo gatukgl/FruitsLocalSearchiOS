@@ -58,6 +58,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="header" destination="6ej-7r-1N5" id="m3l-GA-9ND"/>
                         <outlet property="tableView" destination="gPZ-8W-mqQ" id="U6b-vb-hSM"/>
                     </connections>
                 </viewController>

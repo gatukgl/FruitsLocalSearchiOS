@@ -10,7 +10,11 @@ import UIKit
 var allFruits: [Fruits]?
 
 class ViewController: UIViewController {
+    @IBOutlet weak var header: UILabel!
     @IBOutlet weak var tableView: UITableView!
+
+    var startTime: Date?
+    var endTime: Date?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +25,11 @@ class ViewController: UIViewController {
     }
 
     func loadAllFruits() {
+        startTime = Date(timeIntervalSinceReferenceDate: Date().timeIntervalSinceReferenceDate)
         let store = FruitsStore(dbManager: DbManager.shared)
         allFruits = store.getAll()
+        endTime = Date(timeIntervalSinceReferenceDate: Date().timeIntervalSinceReferenceDate)
+        print(startTime, endTime)
     }
 }
 
@@ -36,5 +43,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = allFruits?[indexPath.row].name
 
         return cell
+    }
+}
+
+extension Date {
+    func getFormattedDate(format: String) -> String {
+        let dateformat = DateFormatter()
+        dateformat.dateFormat = format
+        return dateformat.string(from: self)
     }
 }
