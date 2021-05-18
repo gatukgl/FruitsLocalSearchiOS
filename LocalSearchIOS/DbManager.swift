@@ -17,6 +17,7 @@ protocol DbManagerProtocol {
     func getAll<T>() -> [T] where T: Object
     func save<T>(_ objects: [T]) where T: Object
     func deleteAll<T>() -> [T] where T: Object
+    func filter<T>(searchString: String) -> [T] where T: Object
 }
 
 class DbManager: DbManagerProtocol {
@@ -26,7 +27,7 @@ class DbManager: DbManagerProtocol {
 
     var realm: Realm? {
         do {
-            let config = Realm.Configuration(schemaVersion: 1)
+            let config = Realm.Configuration(schemaVersion: 2)
             Realm.Configuration.defaultConfiguration = config
             return try Realm()
         } catch let error {
@@ -66,5 +67,12 @@ class DbManager: DbManagerProtocol {
             print("[Realm Error] delete: ", error)
         }
         return allItems
+    }
+
+    func filter<T>(searchString: String) -> [T] where T: Object {
+        return realm?.objects(T.self)
+            .filter("searchString contains %@", searchString)
+            .map { $0 }
+            ?? []
     }
 }

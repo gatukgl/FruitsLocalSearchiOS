@@ -14,6 +14,7 @@ class Fruits: Object {
     @objc dynamic var productCode = ""
     @objc dynamic var name = ""
     @objc dynamic var image = ""
+    @objc dynamic var searchString = ""
 
     override static func primaryKey() -> String? {
         return "id"
@@ -28,6 +29,7 @@ class Fruits: Object {
         self.productCode = productCode
         self.name = name
         self.image = image
+        self.searchString = "\(id) \(productCode) \(productCode) \(name) \(image)"
     }
 }
 
@@ -44,6 +46,11 @@ class FruitsStore {
     func getAll() -> [Fruits] {
         let fruits: [Fruits] = dbManager.getAll()
         return fruits
+    }
+
+    func search(text: String) -> [Fruits] {
+        let filteredFruits: [Fruits] = dbManager.filter(searchString: text)
+        return filteredFruits
     }
 
     private func save() {
