@@ -65,7 +65,7 @@ class FruitsStore {
     private func _generateFruitsChunk() -> [Fruits] {
         var fruits: [Fruits] = []
 
-        for i in 1...1000 {
+        for i in 1...20000 {
             let randomProductCode = randomString(length: 10)
             fruits.append(
                 Fruits(
