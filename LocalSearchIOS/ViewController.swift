@@ -12,18 +12,21 @@ var allFruits: [Fruits]?
 class ViewController: UIViewController {
     @IBOutlet weak var header: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchText: UITextField!
+    let store = FruitsStore(dbManager: DbManager.shared)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        loadAllFruits()
+        allFruits = store.getAll()
         tableView.reloadData()
     }
 
-    func loadAllFruits() {
-        let store = FruitsStore(dbManager: DbManager.shared)
-        allFruits = store.getAll()
+    @IBAction func onSearchChanged(_ sender: Any) {
+        guard let text = searchText.text else { return }
+        allFruits = store.search(text: text)
+        tableView.reloadData()
     }
 }
 

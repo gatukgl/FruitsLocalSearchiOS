@@ -53,7 +53,7 @@ class FruitsStore {
         return filteredFruits
     }
 
-    private func save() {
+    func save() {
         let fruits = _generateFruitsChunk()
         dbManager.save(fruits)
     }
@@ -66,10 +66,11 @@ class FruitsStore {
         var fruits: [Fruits] = []
 
         for i in 1...1000 {
+            let randomProductCode = randomString(length: 10)
             fruits.append(
                 Fruits(
                     id: i,
-                    productCode: "\(i)",
+                    productCode: "\(randomProductCode)",
                     name: "Fruit No. \(i)",
                     image: "Image\(i).png"
                 )
@@ -78,4 +79,9 @@ class FruitsStore {
 
         return fruits
     }
+}
+
+func randomString(length: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return String((0..<length).map{ _ in letters.randomElement()! })
 }
